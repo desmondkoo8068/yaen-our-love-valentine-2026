@@ -105,22 +105,46 @@ button {
 }
 
 /* Gallery */
+/* Gallery */
 .gallery {
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
-  gap:12px;
-  padding:5px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* smaller min-width */
+  gap: 8px; /* smaller gap for mobile */
+  padding: 5px;
 }
 
 .polaroid {
-  background:white;
-  padding:10px 10px 25px;
-  border-radius:6px;
-  box-shadow:0 10px 20px rgba(0,0,0,.2);
-  transform:rotate(var(--r));
-  cursor:pointer;
-  transition:.3s;
+  background: white;
+  padding: 8px 8px 20px; /* slightly smaller padding for mobile */
+  border-radius: 6px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .2);
+  transform: rotate(var(--r));
+  cursor: pointer;
+  transition: .3s;
 }
+
+.polaroid img {
+  width: 100%;
+  height: auto; /* maintain aspect ratio */
+  border-radius: 4px;
+}
+
+/* Mobile adjustments */
+@media(max-width:480px){
+  .gallery {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* even smaller min-width */
+    gap: 6px;
+  }
+
+  .polaroid {
+    padding: 6px 6px 18px;
+  }
+
+  .caption {
+    font-size: 11px;
+  }
+}
+
 
 .polaroid:hover {
   transform:scale(1.05) rotate(0deg);
