@@ -295,9 +295,23 @@ function gallery(){
         <img src="photo4.jpeg"><div class="caption">Always you</div>
       </div>
     </div>
-    <button class="btn" onclick="letter()">Next 💗</button>
+
+    <!-- Floating next button -->
+    <button class="btn floating-btn" onclick="letter()">Next 💗</button>
+
+    <p style="margin-top:15px; font-size:14px; color:#888;">Or tap anywhere to continue →</p>
   `);
+
+  // Make the entire card tappable on mobile/desktop
+  screen.onclick = (e) => {
+    // Avoid triggering if user clicked the button or a polaroid
+    if (e.target.closest('.btn') || e.target.closest('.polaroid')) return;
+
+    screen.onclick = null; // prevent multiple triggers
+    letter();
+  };
 }
+
 
 function view(src){
   const m=document.createElement("div");
