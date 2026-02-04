@@ -11,6 +11,8 @@
   --text:#333; --accent:#ff4d6d;
 }
 
+
+
 body.night {
   --bg1:#0f2027; --bg2:#203a43;
   --card:#1f2933; --text:#f5f5f5; --accent:#ff7aa2;
@@ -249,15 +251,15 @@ function gallery(){
     <h1>Our Memories 📸</h1>
     <div class="gallery">
       <div class="polaroid" style="--r:-4deg" onclick="view('photo1.jpeg')">
-        <img src="photo1.jpeg"><div class="caption">Us ❤️</div>
+        <img src="photo3.jpeg"><div class="caption">Us ❤️</div>
       </div>
       <div class="polaroid" style="--r:3deg" onclick="view('photo2.jpeg')">
-        <img src="photo2.jpeg"><div class="caption">That day ✨</div>
+        <img src="photo8.jpeg"><div class="caption">That day ✨</div>
       </div>
       <div class="polaroid" style="--r:-2deg" onclick="view('photo3.jpeg')">
-        <img src="photo3.jpeg"><div class="caption">My favorite</div>
+        <img src="photo5.jpeg"><div class="caption">My favorite</div>
       </div>
-      <div class="polaroid" style="--r:5deg" onclick="view('photo4.jpeg')">
+      <div class="polaroid" style="--r:5deg" onclick="view('photo6.jpeg')">
         <img src="photo4.jpeg"><div class="caption">Always you</div>
       </div>
     </div>
@@ -310,20 +312,45 @@ function question(){
 /* No prank */
 function moveNo(){
   const n = document.getElementById("noBtn");
+
   if (!noHoverStart) noHoverStart = Date.now();
 
-  if (Date.now() - noHoverStart > 3000 && !prankTriggered) {
+  // Auto-prank after 3s
+  if (Date.now() - noHoverStart > 10000 && !prankTriggered) {
     prankTriggered = true;
     prankNo();
     return;
   }
 
+  // Random new position
   const parentWidth = screen.offsetWidth - n.offsetWidth;
   const parentHeight = 120 - n.offsetHeight;
+  const left = Math.random() * parentWidth;
+  const top = Math.random() * parentHeight;
 
-  n.style.left=Math.random()*parentWidth+"px";
-  n.style.top=Math.random()*parentHeight+"px";
+  // Spin + scale animation
+  n.style.transition = "all 0.4s ease-out";
+  n.style.left = left + "px";
+  n.style.top = top + "px";
+  n.style.transform = `rotate(${Math.random()*720-360}deg) scale(${Math.random()*0.6+0.8})`;
+
+  // Leave a tiny heart behind
+  const h = document.createElement("div");
+  h.textContent = "💖";
+  h.style.position = "absolute";
+  h.style.left = n.offsetLeft + n.offsetWidth/2 + "px";
+  h.style.top = n.offsetTop + n.offsetHeight/2 + "px";
+  h.style.fontSize = "14px";
+  h.style.opacity = 1;
+  document.body.appendChild(h);
+  // Animate the heart floating up
+  h.animate([
+    { transform: 'translateY(0px)', opacity: 1 },
+    { transform: 'translateY(-40px)', opacity: 0 }
+  ], { duration: 1200, easing: 'ease-out' });
+  setTimeout(()=>h.remove(),1200);
 }
+
 
 function prankNo(){
   transition(`
@@ -333,26 +360,13 @@ function prankNo(){
   `);
 
   setTimeout(()=>{
-    confetti();
     yes(true);
   },2500);
 }
 
-/* Confetti */
-function confetti(){
-  for(let i=0;i<90;i++){
-    const c=document.createElement("div");
-    c.className="confetti";
-    c.style.left=Math.random()*100+"vw";
-    c.style.background=`hsl(${Math.random()*360},100%,60%)`;
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),2000);
-  }
-}
 
 /* YES */
 function yes(auto=false){
-  confetti();
   if (navigator.vibrate) navigator.vibrate([200,100,200]);
 
   transition(`
@@ -373,6 +387,9 @@ function yes(auto=false){
     <p style="font-size:26px">💐💖💐</p>
   `);
 }
+
+
+
 </script>
 
 </body>
